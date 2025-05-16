@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: url('26 sunset.jpg') no-repeat center center fixed;
+      background: url('26%20sunset.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
       text-align: center;
@@ -51,6 +51,17 @@
       display: inline-block;
     }
 
+    .spotify-header {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      border-radius: 12px;
+      display: inline-block;
+      color: white;
+      margin: 20px auto 10px;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+
     iframe {
       margin: 20px 0 40px;
       border-radius: 12px;
@@ -73,6 +84,8 @@
       display: block;
       border-bottom: 3px solid #fff;
       border-radius: 16px 16px 0 0;
+      opacity: 1;
+      transition: opacity 0.4s ease;
     }
 
     #caption {
@@ -81,6 +94,8 @@
       color: #fff;
       min-height: 60px;
       line-height: 1.3em;
+      opacity: 1;
+      transition: opacity 0.4s ease;
     }
 
     #nextBtn {
@@ -99,18 +114,17 @@
     #nextBtn:hover {
       background-color: #ff3b2f;
     }
-
   </style>
 </head>
 <body>
-  <h1>🎉 Happy Happiest b'day my dear one 🎂</h1>
-  <p class="message">To my dear Dipuuu, Today is Special Day. Here's a little surprise for you! 💖</p>
+  <h1>🎉 Happy happiest b'day my dear one 🎂</h1>
+  <p class="message">To My dear Dipuuu, you mean the world to me. Here's a little surprise for your special day! 💖</p>
 
   <!-- Countdown Timer -->
   <div class="countdown" id="countdown"></div>
 
   <!-- Spotify Embed -->
-  <h2>🎵 A song for you:</h2>
+  <h2 class="spotify-header">🎵 A song for you:</h2>
   <iframe
     style="border-radius:12px"
     src="https://open.spotify.com/embed/track/05SJ8KGRFN71oFy0jkLOOW?utm_source=generator"
@@ -168,7 +182,7 @@
       {src: "snap tongue.jpg", caption: "Keep your funny, creepy jokes alive — and keep laughing at them 😂"},
       {src: "white bhut .jpg", caption: "Control your anger and don’t give this horrible look to anyone else 😅"},
       {src: "sapra dam.jpg", caption: "May Mother Nature keep cherishing you as her favorite child 🌿"},
-      {src: "temple.jpg", caption: "Many Many Happy Returns of the Day 🎉"},
+      {src: "ts.jpg", caption: "Many Many Happy Returns of the Day 🎉"},
       {src: "ril 31st .jpg", caption: "Happiest B'day Dipuuuu... 🎂"},
     ];
 
@@ -181,7 +195,7 @@
     nextBtn.addEventListener("click", () => {
       currentIndex++;
       if (currentIndex < albumPhotos.length) {
-        // Animate fade out
+        // Fade out
         photoEl.style.opacity = 0;
         captionEl.style.opacity = 0;
 
@@ -191,16 +205,16 @@
           photoEl.alt = `Album Photo ${currentIndex + 1}`;
           captionEl.textContent = albumPhotos[currentIndex].caption;
 
-          // Fade back in
+          // Fade in
           photoEl.style.opacity = 1;
           captionEl.style.opacity = 1;
         }, 400);
       } else {
-        nextBtn.style.display = "none"; // Hide button when last photo reached
+        nextBtn.style.display = "none"; // Hide button at end
       }
     });
 
-    // Initialize opacity for animation
+    // Initialize opacity transitions
     photoEl.style.transition = "opacity 0.4s ease";
     captionEl.style.transition = "opacity 0.4s ease";
   </script>
