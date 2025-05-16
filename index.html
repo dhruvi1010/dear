@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Dipuuu!</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background: linear-gradient(135deg, #ffc0cb, #ff69b4);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-top: 20px;
+    }
+
+    .message {
+      font-size: 1.5em;
+      margin: 10px auto;
+      max-width: 600px;
+    }
+
+    .countdown {
+      font-size: 2em;
+      margin: 20px 0;
+    }
+
+    iframe {
+      margin: 20px 0;
+      border-radius: 12px;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px;
+    }
+
+    .gallery img {
+      width: 200px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .form-link {
+      font-size: 1.2em;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy happiest b'day my dear one 🎂</h1>
+  <p class="message">To My dear Dipuuu, you mean the world to me. Here's a little surprise for your special day! 💖</p>
+
+  <!-- Countdown Timer -->
+  <div class="countdown" id="countdown"></div>
+
+  <!-- Spotify Embed -->
+  <h2>🎵 A song for you:</h2>
+  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/05SJ8KGRFN71oFy0jkLOOW?utm_source=generator" width="300" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+  <!-- Photo Gallery -->
+  <h2>📸 Some memories</h2>
+  <div class="gallery" id="gallery">
+    <!-- Add images later -->
+  </div>
+
+  <!-- Google Form (Add link here later) -->
+  <div class="form-link">
+    💌 <a href="#" target="_blank" style="color: yellow;">Send your wishes to Dipuuu</a>
+  </div>
+
+  <script>
+    // Countdown Timer Script
+    const countdownElement = document.getElementById("countdown");
+    const countdownDate = new Date("May 17, 2025 11:30:00").getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance < 0) {
+        countdownElement.innerHTML = "🎉 It's Dipuuu's Birthday! 🎂";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownElement.innerHTML = `⏰ ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    };
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
