@@ -2,71 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Happy Birthday Dipuuu!</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: url('images/26 sunset.jpg') no-repeat center center fixed;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('26 sunset.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
       text-align: center;
       margin: 0;
       padding: 0;
       backdrop-filter: brightness(0.9);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: 20px;
     }
 
     h1 {
       font-size: 3em;
-      margin-top: 20px;
+      margin: 20px 0 10px;
       background: rgba(0, 0, 0, 0.5);
-      padding: 10px;
+      padding: 10px 20px;
+      border-radius: 12px;
+      display: inline-block;
     }
 
     .message {
-      font-size: 1.5em;
-      margin: 10px auto;
+      font-size: 1.4em;
+      margin: 0 0 30px;
       max-width: 700px;
       background: rgba(0, 0, 0, 0.4);
-      padding: 15px;
+      padding: 15px 20px;
       border-radius: 10px;
+      display: inline-block;
     }
 
     .countdown {
       font-size: 2em;
-      margin: 20px 0;
+      margin: 20px 0 40px;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 20px;
+      border-radius: 12px;
+      display: inline-block;
     }
 
     iframe {
-      margin: 20px 0;
+      margin: 20px 0 40px;
       border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .gallery-item {
-      background: rgba(0,0,0,0.5);
-      border-radius: 12px;
+    #album {
+      width: 280px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 16px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
       overflow: hidden;
-      width: 250px;
+      margin-bottom: 30px;
+      user-select: none;
     }
 
-    .gallery-item img {
+    #album img {
       width: 100%;
       height: auto;
-      border-bottom: 2px solid #fff;
+      display: block;
+      border-bottom: 3px solid #fff;
+      border-radius: 16px 16px 0 0;
     }
 
-    .caption {
-      padding: 10px;
-      font-size: 1em;
+    #caption {
+      padding: 15px 10px;
+      font-size: 1.1em;
+      color: #fff;
+      min-height: 60px;
+      line-height: 1.3em;
     }
+
+    #nextBtn {
+      padding: 15px 40px;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: #ff6f61;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+      margin-bottom: 40px;
+    }
+
+    #nextBtn:hover {
+      background-color: #ff3b2f;
+    }
+
   </style>
 </head>
 <body>
@@ -78,67 +111,30 @@
 
   <!-- Spotify Embed -->
   <h2>🎵 A song for you:</h2>
-  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/05SJ8KGRFN71oFy0jkLOOW?utm_source=generator" width="300" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  <iframe
+    style="border-radius:12px"
+    src="https://open.spotify.com/embed/track/05SJ8KGRFN71oFy0jkLOOW?utm_source=generator"
+    width="300"
+    height="80"
+    frameborder="0"
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy">
+  </iframe>
 
-  <!-- Photo Gallery -->
-  <h2>📸 Precious Memories</h2>
-  <div class="gallery">
-    <div class="gallery-item">
-      <img src="images/26 rozzy .jpg" alt="26 rozzy">
-      <div class="caption">From sunrise to sunset, I wanna enjoy and cherish every little moment with you</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/navratri.jpg" alt="navratri">
-      <div class="caption">Be as real, natural and cute as you are</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/keri.jpg" alt="keri">
-      <div class="caption">Enjoy every moment of life… like you are enjoying mango 🍋</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/cutie flower.jpg" alt="cutie flower">
-      <div class="caption">Be cute 🌸</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/cutie hair band.jpg" alt="cutie hair band">
-      <div class="caption">Like a child, keep always smiling on your beautiful face 😊</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/gamezone.jpg" alt="gamezone">
-      <div class="caption">Be always playful like Tushyanti cha… Ramanti cha 🕹️</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/rakshi .jpg" alt="rakshi">
-      <div class="caption">Keep laughing like this 😄</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/snap tongue.jpg" alt="snap tongue">
-      <div class="caption">Keep your funny, creepy jokes alive — and keep laughing at them 😂</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/white bhut .jpg" alt="white bhut">
-      <div class="caption">Control your anger and don’t give this horrible look to anyone else 😅</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/sapra dam.jpg" alt="sapra dam">
-      <div class="caption">May Mother Nature keep cherishing you as her favorite child 🌿</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/ts.jpg" alt="ts">
-      <div class="caption">Many Many Happy Returns of the Day 🎉</div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/ril 31st .jpg" alt="ril 31st">
-      <div class="caption">Happiest B'day Dipuuuu... 🎂</div>
-    </div>
+  <!-- Album Viewer -->
+  <div id="album">
+    <img id="photo" src="26 rozzy .jpg" alt="Album Photo" />
+    <div id="caption">From sunrise to sunset, I wanna enjoy and cherish every little moment with you</div>
   </div>
+
+  <button id="nextBtn">Next</button>
 
   <script>
     // Countdown Timer Script
     const countdownElement = document.getElementById("countdown");
     const countdownDate = new Date("May 17, 2025 11:30:00").getTime();
 
-    const updateCountdown = () => {
+    function updateCountdown() {
       const now = new Date().getTime();
       const distance = countdownDate - now;
 
@@ -148,15 +144,65 @@
       }
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       countdownElement.innerHTML = `⏰ ${days}d ${hours}h ${minutes}m ${seconds}s`;
-    };
+    }
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
+    // Album photos and captions array
+    const albumPhotos = [
+      {src: "26 rozzy .jpg", caption: "From sunrise to sunset, I wanna enjoy and cherish every little moment with you"},
+      {src: "navratri.jpg", caption: "Be as real, natural and cute as you are"},
+      {src: "keri.jpg", caption: "Enjoy every moment of life… like you are enjoying mango 🍋"},
+      {src: "cutie flower.jpg", caption: "Be cute 🌸"},
+      {src: "cutie hair band.jpg", caption: "Like a child, keep always smiling on your beautiful face 😊"},
+      {src: "gamezone.jpg", caption: "Be always playful like Tushyanti cha… Ramanti cha 🕹️"},
+      {src: "rakshi .jpg", caption: "Keep laughing like this 😄"},
+      {src: "snap tongue.jpg", caption: "Keep your funny, creepy jokes alive — and keep laughing at them 😂"},
+      {src: "white bhut .jpg", caption: "Control your anger and don’t give this horrible look to anyone else 😅"},
+      {src: "sapra dam.jpg", caption: "May Mother Nature keep cherishing you as her favorite child 🌿"},
+      {src: "ts.jpg", caption: "Many Many Happy Returns of the Day 🎉"},
+      {src: "ril 31st .jpg", caption: "Happiest B'day Dipuuuu... 🎂"},
+    ];
+
+    const photoEl = document.getElementById("photo");
+    const captionEl = document.getElementById("caption");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let currentIndex = 0;
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex++;
+      if (currentIndex < albumPhotos.length) {
+        // Animate fade out
+        photoEl.style.opacity = 0;
+        captionEl.style.opacity = 0;
+
+        setTimeout(() => {
+          // Change photo and caption
+          photoEl.src = albumPhotos[currentIndex].src;
+          photoEl.alt = `Album Photo ${currentIndex + 1}`;
+          captionEl.textContent = albumPhotos[currentIndex].caption;
+
+          // Fade back in
+          photoEl.style.opacity = 1;
+          captionEl.style.opacity = 1;
+        }, 400);
+      } else {
+        nextBtn.style.display = "none"; // Hide button when last photo reached
+      }
+    });
+
+    // Initialize opacity for animation
+    photoEl.style.transition = "opacity 0.4s ease";
+    captionEl.style.transition = "opacity 0.4s ease";
   </script>
 </body>
 </html>
