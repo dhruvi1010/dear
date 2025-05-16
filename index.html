@@ -6,23 +6,30 @@
   <title>Happy Birthday Dipuuu!</title>
   <style>
     body {
-      font-family: 'Comic Sans MS', sans-serif;
-      background: linear-gradient(135deg, #ffc0cb, #ff69b4);
+      font-family: 'Segoe UI', sans-serif;
+      background: url('images/26 sunset.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: #fff;
       text-align: center;
       margin: 0;
       padding: 0;
+      backdrop-filter: brightness(0.9);
     }
 
     h1 {
       font-size: 3em;
       margin-top: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
     }
 
     .message {
       font-size: 1.5em;
       margin: 10px auto;
-      max-width: 600px;
+      max-width: 700px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 15px;
+      border-radius: 10px;
     }
 
     .countdown {
@@ -39,20 +46,26 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      margin: 20px;
+      gap: 20px;
+      padding: 20px;
     }
 
-    .gallery img {
-      width: 200px;
+    .gallery-item {
+      background: rgba(0,0,0,0.5);
+      border-radius: 12px;
+      overflow: hidden;
+      width: 250px;
+    }
+
+    .gallery-item img {
+      width: 100%;
       height: auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      border-bottom: 2px solid #fff;
     }
 
-    .form-link {
-      font-size: 1.2em;
-      margin-top: 30px;
+    .caption {
+      padding: 10px;
+      font-size: 1em;
     }
   </style>
 </head>
@@ -68,14 +81,56 @@
   <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/05SJ8KGRFN71oFy0jkLOOW?utm_source=generator" width="300" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
   <!-- Photo Gallery -->
-  <h2>📸 Some memories</h2>
-  <div class="gallery" id="gallery">
-    <!-- Add images later -->
-  </div>
-
-  <!-- Google Form (Add link here later) -->
-  <div class="form-link">
-    💌 <a href="#" target="_blank" style="color: yellow;">Send your wishes to Dipuuu</a>
+  <h2>📸 Precious Memories</h2>
+  <div class="gallery">
+    <div class="gallery-item">
+      <img src="images/26 rozzy .jpg" alt="26 rozzy">
+      <div class="caption">From sunrise to sunset, I wanna enjoy and cherish every little moment with you</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/navratri.jpg" alt="navratri">
+      <div class="caption">Be as real, natural and cute as you are</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/keri.jpg" alt="keri">
+      <div class="caption">Enjoy every moment of life… like you are enjoying mango 🍋</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/cutie flower.jpg" alt="cutie flower">
+      <div class="caption">Be cute 🌸</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/cutie hair band.jpg" alt="cutie hair band">
+      <div class="caption">Like a child, keep always smiling on your beautiful face 😊</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/gamezone.jpg" alt="gamezone">
+      <div class="caption">Be always playful like Tushyanti cha… Ramanti cha 🕹️</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/rakshi .jpg" alt="rakshi">
+      <div class="caption">Keep laughing like this 😄</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/snap tongue.jpg" alt="snap tongue">
+      <div class="caption">Keep your funny, creepy jokes alive — and keep laughing at them 😂</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/white bhut .jpg" alt="white bhut">
+      <div class="caption">Control your anger and don’t give this horrible look to anyone else 😅</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/sapra dam.jpg" alt="sapra dam">
+      <div class="caption">May Mother Nature keep cherishing you as her favorite child 🌿</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/ts.jpg" alt="ts">
+      <div class="caption">Many Many Happy Returns of the Day 🎉</div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/ril 31st .jpg" alt="ril 31st">
+      <div class="caption">Happiest B'day Dipuuuu... 🎂</div>
+    </div>
   </div>
 
   <script>
