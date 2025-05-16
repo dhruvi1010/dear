@@ -5,80 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Happy Birthday Dipuuu!</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: url('26%20sunset.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
       text-align: center;
+      margin: 0;
+      padding: 0;
+      backdrop-filter: brightness(0.9);
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .sparkles {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      background: transparent;
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: sparkleAnim 3s linear infinite;
-    }
-
-    @keyframes sparkleAnim {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) scale(0.5);
-        opacity: 0;
-      }
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: 20px;
     }
 
     h1 {
       font-size: 3em;
-      margin-top: 40px;
+      margin: 20px 0 10px;
+      background: rgba(0, 0, 0, 0.5);
       padding: 10px 20px;
-      color: #fff;
+      border-radius: 12px;
+      display: inline-block;
     }
 
     .message {
       font-size: 1.4em;
-      margin: 20px auto;
+      margin: 0 0 30px;
       max-width: 700px;
+      background: rgba(0, 0, 0, 0.4);
       padding: 15px 20px;
-      color: #fff;
+      border-radius: 10px;
+      display: inline-block;
     }
 
     .countdown {
       font-size: 2em;
-      margin: 20px 0;
+      margin: 20px 0 40px;
       font-weight: bold;
+      background: rgba(0, 0, 0, 0.4);
       padding: 10px 20px;
-      color: #fff;
+      border-radius: 12px;
+      display: inline-block;
     }
 
     .spotify-header {
+      background: rgba(0, 0, 0, 0.6);
       padding: 10px 20px;
-      color: #fff;
+      border-radius: 12px;
+      display: inline-block;
+      color: white;
       margin: 20px auto 10px;
       font-size: 1.8em;
       font-weight: bold;
@@ -88,8 +66,6 @@
       margin: 20px 0 40px;
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      position: relative;
-      z-index: 1;
     }
 
     #album {
@@ -98,10 +74,8 @@
       border-radius: 16px;
       box-shadow: 0 0 15px rgba(0,0,0,0.7);
       overflow: hidden;
-      margin: 30px auto;
+      margin-bottom: 30px;
       user-select: none;
-      position: relative;
-      z-index: 1;
     }
 
     #album img {
@@ -120,4 +94,129 @@
       color: #fff;
       min-height: 60px;
       line-height: 1.3em;
-      opacity:
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    #nextBtn {
+      padding: 15px 40px;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: #ff6f61;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+      margin-bottom: 40px;
+    }
+
+    #nextBtn:hover {
+      background-color: #ff3b2f;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy happiest b'day my dear one 🎂</h1>
+  <p class="message">To My dear Dipuuu, you mean the world to me. Here's a little surprise for your special day! 💖</p>
+
+  <!-- Countdown Timer -->
+  <div class="countdown" id="countdown"></div>
+
+  <!-- Spotify Embed -->
+  <h2 class="spotify-header">🎵 A song for you:</h2>
+  <iframe
+    style="border-radius:12px"
+    src="https://open.spotify.com/embed/track/05SJ8KGRFN71oFy0jkLOOW?utm_source=generator"
+    width="300"
+    height="80"
+    frameborder="0"
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy">
+  </iframe>
+
+  <!-- Album Viewer -->
+  <div id="album">
+    <img id="photo" src="26 rozzy .jpg" alt="Album Photo" />
+    <div id="caption">From sunrise to sunset, I wanna enjoy and cherish every little moment with you</div>
+  </div>
+
+  <button id="nextBtn">Next</button>
+
+  <script>
+    // Countdown Timer Script
+    const countdownElement = document.getElementById("countdown");
+    const countdownDate = new Date("May 17, 2025 11:30:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance < 0) {
+        countdownElement.innerHTML = "🎉 It's Dipuuu's Birthday! 🎂";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownElement.innerHTML = `⏰ ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Album photos and captions array
+    const albumPhotos = [
+      {src: "26 rozzy .jpg", caption: "From sunrise to sunset, I wanna enjoy and cherish every little moment with you"},
+      {src: "navratri.jpg", caption: "Be as real, natural and cute as you are"},
+      {src: "keri.jpg", caption: "Enjoy every moment of life… like you are enjoying mango 🍋"},
+      {src: "cutie flower.jpg", caption: "Be cute 🌸"},
+      {src: "cutie hair band.jpg", caption: "Like a child, keep always smiling on your beautiful face 😊"},
+      {src: "gamezone.jpg", caption: "Be always playful like Tushyanti cha… Ramanti cha 🕹️"},
+      {src: "rakshi .jpg", caption: "Keep laughing like this 😄"},
+      {src: "snap tongue.jpg", caption: "Keep your funny, creepy jokes alive — and keep laughing at them 😂"},
+      {src: "white bhut .jpg", caption: "Control your anger and don’t give this horrible look to anyone else 😅"},
+      {src: "sapra dam.jpg", caption: "May Mother Nature keep cherishing you as her favorite child 🌿"},
+      {src: "ts.jpg", caption: "Many Many Happy Returns of the Day 🎉"},
+      {src: "ril 31st .jpg", caption: "Happiest B'day Dipuuuu... 🎂"},
+    ];
+
+    const photoEl = document.getElementById("photo");
+    const captionEl = document.getElementById("caption");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let currentIndex = 0;
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex++;
+      if (currentIndex < albumPhotos.length) {
+        // Fade out
+        photoEl.style.opacity = 0;
+        captionEl.style.opacity = 0;
+
+        setTimeout(() => {
+          // Change photo and caption
+          photoEl.src = albumPhotos[currentIndex].src;
+          photoEl.alt = `Album Photo ${currentIndex + 1}`;
+          captionEl.textContent = albumPhotos[currentIndex].caption;
+
+          // Fade in
+          photoEl.style.opacity = 1;
+          captionEl.style.opacity = 1;
+        }, 400);
+      } else {
+        nextBtn.style.display = "none"; // Hide button at end
+      }
+    });
+
+    // Initialize opacity transitions
+    photoEl.style.transition = "opacity 0.4s ease";
+    captionEl.style.transition = "opacity 0.4s ease";
+  </script>
+</body>
+</html>
