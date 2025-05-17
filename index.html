@@ -23,8 +23,21 @@
     }
 
     h1 { font-size: 3em; margin: 20px 0 10px; }
-    .countdown, .message, .quiz-container, .puzzle-container, #album, #nextBtn {
-      margin: 20px auto; padding: 10px; border-radius: 10px;
+
+    .countdown {
+      font-size: 2em;
+      margin: 20px auto 10px;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 20px;
+      border-radius: 12px;
+      max-width: 700px;
+    }
+
+    .message, .quiz-container, .puzzle-container, #album, #nextBtn {
+      margin: 20px auto;
+      padding: 10px;
+      border-radius: 10px;
       max-width: 700px;
       background: rgba(0, 0, 0, 0.3);
     }
@@ -59,15 +72,21 @@
       cursor: grab;
       border: 1px solid #fff;
       background-size: 300px 225px;
+      user-select: none;
     }
 
     #album img {
-      width: 100%; border-radius: 16px 16px 0 0;
+      width: 100%;
+      border-radius: 16px 16px 0 0;
     }
   </style>
 </head>
 <body>
   <h1>🎉 Happy happiest b'day my dear one 🎂</h1>
+
+  <!-- Countdown timer above quiz -->
+  <div class="countdown" id="countdown"></div>
+
   <p class="message">To My dear Dipuuu, Here's a little surprise for your special day! 💖</p>
 
   <div class="quiz-container">
@@ -95,6 +114,27 @@
   <button id="nextBtn" style="display:none;">Next</button>
 
   <script>
+    // Countdown Timer
+    const countdownElement = document.getElementById("countdown");
+    const countdownDate = new Date("May 17, 2025 20:30:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+      if (distance < 0) {
+        countdownElement.innerHTML = "🎉 It's Dipuuu's Birthday! 🎂";
+        return;
+      }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownElement.innerHTML = `⏰ ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Quiz check answer
     function checkAnswer(answer) {
       const feedback = document.getElementById("feedback");
       if (answer === "26 January") {
@@ -107,8 +147,10 @@
       }
     }
 
+    // Puzzle logic
     function createPuzzle() {
       const grid = document.getElementById("puzzle-grid");
+      grid.innerHTML = ""; // clear old tiles if any
       const pieces = [];
       for (let i = 0; i < 12; i++) {
         pieces.push(i);
@@ -132,20 +174,52 @@
       }
     }
 
-    let dragged;
+    let draggedTile = null;
+
     function dragStart(e) {
-      dragged = e.target;
+      draggedTile = e.target;
+      e.dataTransfer.effectAllowed = "move";
     }
+
     function dragOver(e) {
       e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
     }
+
     function drop(e) {
       e.preventDefault();
-      const temp = document.createElement("div");
-      temp.replaceWith.call(dragged, e.target);
-      grid = e.target.parentNode;
-      grid.insertBefore(dragged, temp);
+      const targetTile = e.target;
+      if (!targetTile.classList.contains("tile") || targetTile === draggedTile) return;
+
+      // Swap the tiles visually and their dataset.index
+      const grid = document.getElementById("puzzle-grid");
+      const draggedIndex = draggedTile.dataset.index;
+      const targetIndex = targetTile.dataset.index;
+
+      // Clone nodes to swap
+      const draggedClone = draggedTile.cloneNode(true);
+      const targetClone = targetTile.cloneNode(true);
+
+      // Update event listeners on clones
+      addTileListeners(draggedClone);
+      addTileListeners(targetClone);
+
+      // Swap dataset.index
+      draggedClone.dataset.index = targetIndex;
+      targetClone.dataset.index = draggedIndex;
+
+      grid.replaceChild(draggedClone, targetTile);
+      grid.replaceChild(targetClone, draggedTile);
+
       checkCompletion();
+    }
+
+    function addTileListeners(tile) {
+      tile.addEventListener("dragstart", dragStart);
+      tile.addEventListener("dragover", dragOver);
+      tile.addEventListener("drop", drop);
+      tile.draggable = true;
+      tile.style.cursor = "grab";
     }
 
     function checkCompletion() {
@@ -161,6 +235,7 @@
       }, 2000);
     }
 
+    // Album slideshow
     const albumPhotos = [
       {src: "26 rozzy .jpg", caption: "From sunrise to sunset, I wanna enjoy and cherish every little moment with you 🥳"},
       {src: "navratri.jpg", caption: "Be as real, natural and cute as you are 😍"},
@@ -186,8 +261,14 @@
     nextBtn.addEventListener("click", () => {
       currentIndex++;
       if (currentIndex < albumPhotos.length) {
-        photoEl.src = albumPhotos[currentIndex].src;
-        captionEl.textContent = albumPhotos[currentIndex].caption;
+        photoEl.style.opacity = 0;
+        captionEl.style.opacity = 0;
+        setTimeout(() => {
+          photoEl.src = albumPhotos[currentIndex].src;
+          captionEl.textContent = albumPhotos[currentIndex].caption;
+          photoEl.style.opacity = 1;
+          captionEl.style.opacity = 1;
+        }, 400);
       } else {
         nextBtn.style.display = "none";
       }
