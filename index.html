@@ -25,20 +25,15 @@
     h1 {
       font-size: 3em;
       margin: 20px 0 10px;
-      background: rgba(0, 0, 0, 0);
-      padding: 10px 20px;
-      border-radius: 12px;
-      display: inline-block;
     }
 
-    .message {
+    .message, .quiz-container {
       font-size: 1.4em;
-      margin: 0 0 30px;
+      margin: 10px 0 30px;
       max-width: 700px;
-      background: rgba(0, 0, 0, 0);
       padding: 15px 20px;
       border-radius: 10px;
-      display: inline-block;
+      background: rgba(0, 0, 0, 0.4);
     }
 
     .countdown {
@@ -48,16 +43,12 @@
       background: rgba(0, 0, 0, 0.4);
       padding: 10px 20px;
       border-radius: 12px;
-      display: inline-block;
     }
 
     .spotify-header {
       background: rgba(0, 0, 0, 0);
       padding: 10px 20px;
       border-radius: 12px;
-      display: inline-block;
-      color: white;
-      margin: 20px auto 10px;
       font-size: 1.8em;
       font-weight: bold;
     }
@@ -68,6 +59,10 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 
+    #album, #nextBtn {
+      display: none;
+    }
+
     #album {
       width: 280px;
       background: rgba(0,0,0,0.6);
@@ -75,7 +70,6 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.7);
       overflow: hidden;
       margin-bottom: 30px;
-      user-select: none;
     }
 
     #album img {
@@ -91,7 +85,6 @@
     #caption {
       padding: 15px 10px;
       font-size: 1.1em;
-      color: #fff;
       min-height: 60px;
       line-height: 1.3em;
       opacity: 1;
@@ -107,18 +100,50 @@
       border-radius: 12px;
       color: white;
       box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: background-color 0.3s ease;
       margin-bottom: 40px;
     }
 
     #nextBtn:hover {
       background-color: #ff3b2f;
     }
+
+    .quiz-options button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #fff;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .quiz-options button:hover {
+      background-color: #ffdbac;
+    }
+
+    #feedback {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1em;
+    }
   </style>
 </head>
 <body>
   <h1>🎉 Happy happiest b'day my dear one 🎂</h1>
   <p class="message">To My dear Dipuuu, Here's a little surprise for your special day! 💖</p>
+
+  <!-- Quiz Section -->
+  <div class="quiz-container">
+    <p>📌 Quiz: Choose the correct date to unlock my special message!</p>
+    <div class="quiz-options">
+      <button onclick="checkAnswer('6 March')">6 March</button>
+      <button onclick="checkAnswer('26 January')">26 January</button>
+      <button onclick="checkAnswer('22 October')">22 October</button>
+      <button onclick="checkAnswer('18 May')">18 May</button>
+    </div>
+    <div id="feedback"></div>
+  </div>
 
   <!-- Countdown Timer -->
   <div class="countdown" id="countdown"></div>
@@ -144,33 +169,26 @@
   <button id="nextBtn">Next</button>
 
   <script>
-    // Countdown Timer Script
+    // Countdown Timer
     const countdownElement = document.getElementById("countdown");
     const countdownDate = new Date("May 17, 2025 20:30:00").getTime();
-
     function updateCountdown() {
       const now = new Date().getTime();
       const distance = countdownDate - now;
-
       if (distance < 0) {
         countdownElement.innerHTML = "🎉 It's Dipuuu's Birthday! 🎂";
         return;
       }
-
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
       countdownElement.innerHTML = `⏰ ${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
-
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Album photos and captions array
+    // Album Data
     const albumPhotos = [
       {src: "26 rozzy .jpg", caption: "From sunrise to sunset, I wanna enjoy and cherish every little moment with you 🥳"},
       {src: "navratri.jpg", caption: "Be as real, natural and cute as you are 😍"},
@@ -187,36 +205,42 @@
       {src: "ril 31st .jpg", caption: "Happiest B'day Dipuuuu..🎂🤩😍"},
       {src: "birthday king .jpg", caption: "My King 👑"},
     ];
-
     const photoEl = document.getElementById("photo");
     const captionEl = document.getElementById("caption");
     const nextBtn = document.getElementById("nextBtn");
+    const albumEl = document.getElementById("album");
 
     let currentIndex = 0;
-
     nextBtn.addEventListener("click", () => {
       currentIndex++;
       if (currentIndex < albumPhotos.length) {
-        // Fade out
         photoEl.style.opacity = 0;
         captionEl.style.opacity = 0;
-
         setTimeout(() => {
-          // Change photo and caption
           photoEl.src = albumPhotos[currentIndex].src;
           photoEl.alt = `Album Photo ${currentIndex + 1}`;
           captionEl.textContent = albumPhotos[currentIndex].caption;
-
-          // Fade in
           photoEl.style.opacity = 1;
           captionEl.style.opacity = 1;
         }, 400);
       } else {
-        nextBtn.style.display = "none"; // Hide button at end
+        nextBtn.style.display = "none";
       }
     });
 
-    // Initialize opacity transitions
+    // Quiz Logic
+    function checkAnswer(answer) {
+      const feedback = document.getElementById("feedback");
+      if (answer === "26 January") {
+        feedback.innerHTML = "✅ Correct! Enjoy the surprise!";
+        document.querySelector(".quiz-container").style.display = "none";
+        albumEl.style.display = "block";
+        nextBtn.style.display = "inline-block";
+      } else {
+        feedback.innerHTML = "❌ Try again...";
+      }
+    }
+
     photoEl.style.transition = "opacity 0.1s ease";
     captionEl.style.transition = "opacity 0.1s ease";
   </script>
