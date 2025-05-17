@@ -34,7 +34,15 @@
       max-width: 700px;
     }
 
-    .message, .quiz-container, .puzzle-container, #album, #nextBtn {
+    .message {
+      margin: 20px auto;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 700px;
+      background: none;
+    }
+
+    .quiz-container, .puzzle-container, #album, #nextBtn {
       margin: 20px auto;
       padding: 10px;
       border-radius: 10px;
@@ -110,6 +118,8 @@
   </div>
 
   <button id="nextBtn" style="display:none;">Next</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
     const countdownElement = document.getElementById("countdown");
@@ -209,6 +219,30 @@
       }
     }
 
+    function launchConfetti() {
+      const duration = 5 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+
     const albumPhotos = [
       {src: "26 rozzy .jpg", caption: "From sunrise to sunset, I wanna enjoy and cherish every little moment with you 🥳"},
       {src: "navratri.jpg", caption: "Be as real, natural and cute as you are 😍"},
@@ -244,6 +278,7 @@
         }, 400);
       } else {
         nextBtn.style.display = "none";
+        launchConfetti();
       }
     });
   </script>
