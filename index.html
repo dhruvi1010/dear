@@ -36,7 +36,7 @@
       border-radius: 12px;
     }
 
-    .message, .quiz-container {
+    .message, .quiz-container, .puzzle-container {
       font-size: 1.4em;
       margin: 10px 0 30px;
       max-width: 700px;
@@ -59,7 +59,7 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 
-    #album, #nextBtn, #puzzle-container {
+    #album, #nextBtn {
       display: none;
     }
 
@@ -122,25 +122,27 @@
       background-color: #ffdbac;
     }
 
-    #feedback {
+    #feedback, #puzzle-feedback {
       margin-top: 10px;
       font-weight: bold;
       font-size: 1em;
     }
 
-    #puzzle-container {
-      margin-top: 40px;
+    #puzzle-grid {
       display: grid;
-      grid-template-columns: repeat(4, 80px);
-      gap: 4px;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
       justify-content: center;
+      margin: 20px 0;
     }
 
-    .tile {
-      width: 80px;
-      height: 80px;
-      cursor: pointer;
-      border-radius: 8px;
+    .puzzle-piece {
+      width: 100px;
+      height: 100px;
+      background-size: 300px 300px;
+      border: 2px solid #fff;
+      cursor: grab;
     }
   </style>
 </head>
@@ -150,7 +152,7 @@
 
   <!-- Quiz Section -->
   <div class="quiz-container">
-    <p>📌 Quiz: Choose the correct date to unlock the next challenge!</p>
+    <p>📌 Quiz: Choose the correct date to unlock my special messages!</p>
     <div class="quiz-options">
       <button onclick="checkAnswer('6 March')">6 March</button>
       <button onclick="checkAnswer('26 January')">26 January</button>
@@ -159,8 +161,6 @@
     </div>
     <div id="feedback"></div>
   </div>
-
-  <div id="puzzle-container"></div>
 
   <!-- Countdown Timer -->
   <div class="countdown" id="countdown"></div>
@@ -185,7 +185,15 @@
 
   <button id="nextBtn">Next</button>
 
+  <!-- Puzzle Section -->
+  <div class="puzzle-container" style="display:none;">
+    <p>🧩 Assemble the photo to reveal the hidden message!</p>
+    <div id="puzzle-grid"></div>
+    <div id="puzzle-feedback"></div>
+  </div>
+
   <script>
+    // Countdown Timer
     const countdownElement = document.getElementById("countdown");
     const countdownDate = new Date("May 17, 2025 20:30:00").getTime();
     function updateCountdown() {
@@ -204,6 +212,20 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
+    // Quiz Logic
+    function checkAnswer(answer) {
+      const feedback = document.getElementById("feedback");
+      if (answer === "26 January") {
+        feedback.innerHTML = "✅ Correct! Enjoy the surprise!";
+        document.querySelector(".quiz-container").style.display = "none";
+        albumEl.style.display = "block";
+        nextBtn.style.display = "inline-block";
+      } else {
+        feedback.innerHTML = "❌ Try again...";
+      }
+    }
+
+    // Album Viewer
     const albumPhotos = [
       {src: "26 rozzy .jpg", caption: "From sunrise to sunset, I wanna enjoy and cherish every little moment with you 🥳"},
       {src: "navratri.jpg", caption: "Be as real, natural and cute as you are 😍"},
@@ -221,10 +243,10 @@
       {src: "birthday king .jpg", caption: "My King 👑"},
     ];
 
+    const albumEl = document.getElementById("album");
     const photoEl = document.getElementById("photo");
     const captionEl = document.getElementById("caption");
     const nextBtn = document.getElementById("nextBtn");
-    const albumEl = document.getElementById("album");
 
     let currentIndex = 0;
     nextBtn.addEventListener("click", () => {
@@ -241,70 +263,80 @@
         }, 400);
       } else {
         nextBtn.style.display = "none";
+        albumEl.style.display = "none";
+        puzzleContainer.style.display = "block";
+        createPuzzle();
       }
     });
 
-    function checkAnswer(answer) {
-      const feedback = document.getElementById("feedback");
-      if (answer === "26 January") {
-        feedback.innerHTML = "✅ Correct! Now try assembling the photo!";
-        document.querySelector(".quiz-container").style.display = "none";
-        document.getElementById("puzzle-container").style.display = "grid";
-        initPuzzle();
+    // Puzzle Logic
+    const puzzleContainer = document.querySelector(".puzzle-container");
+    const puzzleGrid = document.getElementById("puzzle-grid");
+    const feedbackPuzzle = document.getElementById("puzzle-feedback");
+
+    const piecesOrder = Array.from({length: 9}, (_, i) => i);
+    let currentOrder = [...piecesOrder];
+
+    function shuffle(array) {
+      let arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function createPuzzle() {
+      puzzleGrid.innerHTML = "";
+      currentOrder = shuffle(piecesOrder);
+      currentOrder.forEach(index => {
+        const div = document.createElement("div");
+        div.className = "puzzle-piece";
+        div.setAttribute("draggable", "true");
+        div.dataset.index = index;
+        div.style.backgroundImage = "url('birthday king .jpg')";
+        div.style.backgroundPosition = `-${(index % 3) * 100}px -${Math.floor(index / 3) * 100}px`;
+        div.addEventListener("dragstart", dragStart);
+        div.addEventListener("dragover", dragOver);
+        div.addEventListener("drop", drop);
+        puzzleGrid.appendChild(div);
+      });
+    }
+
+    let draggedItem = null;
+
+    function dragStart(e) {
+      draggedItem = this;
+    }
+
+    function dragOver(e) {
+      e.preventDefault();
+    }
+
+    function drop(e) {
+      e.preventDefault();
+      if (draggedItem !== this) {
+        const tempIndex = this.dataset.index;
+        this.dataset.index = draggedItem.dataset.index;
+        draggedItem.dataset.index = tempIndex;
+
+        const tempBg = this.style.backgroundPosition;
+        this.style.backgroundPosition = draggedItem.style.backgroundPosition;
+        draggedItem.style.backgroundPosition = tempBg;
+
+        checkPuzzleCompletion();
+      }
+    }
+
+    function checkPuzzleCompletion() {
+      const pieces = document.querySelectorAll(".puzzle-piece");
+      const current = Array.from(pieces).map(p => +p.dataset.index);
+      if (JSON.stringify(current) === JSON.stringify(piecesOrder)) {
+        feedbackPuzzle.innerHTML = "✅ Awww yes! That’s the real message 💖";
       } else {
-        feedback.innerHTML = "❌ Try again...";
+        feedbackPuzzle.innerHTML = "";
       }
     }
-
-    function initPuzzle() {
-      const puzzleContainer = document.getElementById("puzzle-container");
-      const tileImages = [];
-      for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 4; col++) {
-          tileImages.push(`tile_${row}_${col}.jpg`);
-        }
-      }
-
-      let shuffled = [...tileImages].sort(() => Math.random() - 0.5);
-      shuffled.forEach((src, i) => {
-        const img = document.createElement('img');
-        img.src = src;
-        img.classList.add('tile');
-        img.dataset.index = i;
-        puzzleContainer.appendChild(img);
-      });
-
-      let first = null;
-      puzzleContainer.addEventListener('click', e => {
-        const clicked = e.target;
-        if (!clicked.classList.contains('tile')) return;
-        if (!first) {
-          first = clicked;
-          first.style.border = '2px solid yellow';
-        } else if (clicked === first) {
-          first.style.border = '';
-          first = null;
-        } else {
-          const temp = first.src;
-          first.src = clicked.src;
-          clicked.src = temp;
-          first.style.border = '';
-          first = null;
-
-          const tiles = [...puzzleContainer.querySelectorAll('img')];
-          const current = tiles.map(t => t.src.split('/').pop());
-          if (JSON.stringify(current) === JSON.stringify(tileImages)) {
-            alert('🎉 Puzzle completed!');
-            puzzleContainer.style.display = 'none';
-            albumEl.style.display = 'block';
-            nextBtn.style.display = 'inline-block';
-          }
-        }
-      });
-    }
-
-    photoEl.style.transition = "opacity 0.1s ease";
-    captionEl.style.transition = "opacity 0.1s ease";
   </script>
 </body>
 </html>
