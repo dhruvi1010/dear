@@ -83,10 +83,7 @@
 </head>
 <body>
   <h1>🎉 Happy happiest b'day my dear one 🎂</h1>
-
-  <!-- Countdown timer above quiz -->
   <div class="countdown" id="countdown"></div>
-
   <p class="message">To My dear Dipuuu, Here's a little surprise for your special day! 💖</p>
 
   <div class="quiz-container">
@@ -134,7 +131,6 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Quiz check answer
     function checkAnswer(answer) {
       const feedback = document.getElementById("feedback");
       if (answer === "26 January") {
@@ -147,26 +143,28 @@
       }
     }
 
-    // Puzzle logic
+    let currentOrder = [];
+    let draggedTile = null;
+
     function createPuzzle() {
       const grid = document.getElementById("puzzle-grid");
-      grid.innerHTML = ""; // clear old tiles if any
+      grid.innerHTML = "";
       const pieces = [];
       for (let i = 0; i < 12; i++) {
         pieces.push(i);
       }
       pieces.sort(() => Math.random() - 0.5);
+      currentOrder = [...pieces];
 
       for (let i = 0; i < 12; i++) {
         const div = document.createElement("div");
         div.classList.add("tile");
         div.draggable = true;
-        div.dataset.index = pieces[i];
+        div.dataset.originalIndex = pieces[i];
         const x = (pieces[i] % 4) * -75;
         const y = Math.floor(pieces[i] / 4) * -75;
         div.style.backgroundImage = "url('farewell.jpg')";
         div.style.backgroundPosition = `${x}px ${y}px`;
-
         div.addEventListener("dragstart", dragStart);
         div.addEventListener("dragover", dragOver);
         div.addEventListener("drop", drop);
@@ -174,16 +172,12 @@
       }
     }
 
-    let draggedTile = null;
-
     function dragStart(e) {
       draggedTile = e.target;
-      e.dataTransfer.effectAllowed = "move";
     }
 
     function dragOver(e) {
       e.preventDefault();
-      e.dataTransfer.dropEffect = "move";
     }
 
     function drop(e) {
@@ -191,41 +185,26 @@
       const targetTile = e.target;
       if (!targetTile.classList.contains("tile") || targetTile === draggedTile) return;
 
-      // Swap the tiles visually and their dataset.index
       const grid = document.getElementById("puzzle-grid");
-      const draggedIndex = draggedTile.dataset.index;
-      const targetIndex = targetTile.dataset.index;
+      const children = Array.from(grid.children);
+      const fromIndex = children.indexOf(draggedTile);
+      const toIndex = children.indexOf(targetTile);
 
-      // Clone nodes to swap
-      const draggedClone = draggedTile.cloneNode(true);
-      const targetClone = targetTile.cloneNode(true);
+      if (fromIndex > toIndex) {
+        grid.insertBefore(draggedTile, targetTile);
+        grid.insertBefore(targetTile, grid.children[fromIndex]);
+      } else {
+        grid.insertBefore(targetTile, draggedTile);
+        grid.insertBefore(draggedTile, grid.children[toIndex]);
+      }
 
-      // Update event listeners on clones
-      addTileListeners(draggedClone);
-      addTileListeners(targetClone);
-
-      // Swap dataset.index
-      draggedClone.dataset.index = targetIndex;
-      targetClone.dataset.index = draggedIndex;
-
-      grid.replaceChild(draggedClone, targetTile);
-      grid.replaceChild(targetClone, draggedTile);
-
+      [currentOrder[fromIndex], currentOrder[toIndex]] = [currentOrder[toIndex], currentOrder[fromIndex]];
       checkCompletion();
     }
 
-    function addTileListeners(tile) {
-      tile.addEventListener("dragstart", dragStart);
-      tile.addEventListener("dragover", dragOver);
-      tile.addEventListener("drop", drop);
-      tile.draggable = true;
-      tile.style.cursor = "grab";
-    }
-
     function checkCompletion() {
-      const tiles = document.querySelectorAll(".tile");
-      for (let i = 0; i < tiles.length; i++) {
-        if (parseInt(tiles[i].dataset.index) !== i) return;
+      for (let i = 0; i < currentOrder.length; i++) {
+        if (currentOrder[i] !== i) return;
       }
       document.getElementById("puzzle-feedback").innerHTML = "🎉 Great job! Here are my wishes!";
       setTimeout(() => {
@@ -235,7 +214,6 @@
       }, 2000);
     }
 
-    // Album slideshow
     const albumPhotos = [
       {src: "26 rozzy .jpg", caption: "From sunrise to sunset, I wanna enjoy and cherish every little moment with you 🥳"},
       {src: "navratri.jpg", caption: "Be as real, natural and cute as you are 😍"},
