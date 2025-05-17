@@ -82,7 +82,7 @@
   </style>
 </head>
 <body>
-  <h1>🎉 Happy happiest b'day my dear one 🎂</h1>
+  <h1>🎉 Happy happiest B'day my dear one 🎂</h1>
   <div class="countdown" id="countdown"></div>
   <p class="message">To My dear Dipuuu, Here's a little surprise for your special day! 💖</p>
 
@@ -111,7 +111,6 @@
   <button id="nextBtn" style="display:none;">Next</button>
 
   <script>
-    // Countdown Timer
     const countdownElement = document.getElementById("countdown");
     const countdownDate = new Date("May 17, 2025 20:30:00").getTime();
 
@@ -143,33 +142,26 @@
       }
     }
 
-    let currentOrder = [];
     let draggedTile = null;
 
     function createPuzzle() {
       const grid = document.getElementById("puzzle-grid");
       grid.innerHTML = "";
-      const pieces = [];
-      for (let i = 0; i < 12; i++) {
-        pieces.push(i);
-      }
-      pieces.sort(() => Math.random() - 0.5);
-      currentOrder = [...pieces];
+      const indices = [...Array(12).keys()];
+      const shuffled = indices.sort(() => Math.random() - 0.5);
 
-      for (let i = 0; i < 12; i++) {
+      shuffled.forEach((index, i) => {
         const div = document.createElement("div");
         div.classList.add("tile");
         div.draggable = true;
-        div.dataset.originalIndex = pieces[i];
-        const x = (pieces[i] % 4) * -75;
-        const y = Math.floor(pieces[i] / 4) * -75;
+        div.dataset.index = index;
         div.style.backgroundImage = "url('farewell.jpg')";
-        div.style.backgroundPosition = `${x}px ${y}px`;
+        div.style.backgroundPosition = `${-(index % 4) * 75}px ${-Math.floor(index / 4) * 75}px`;
         div.addEventListener("dragstart", dragStart);
         div.addEventListener("dragover", dragOver);
         div.addEventListener("drop", drop);
         grid.appendChild(div);
-      }
+      });
     }
 
     function dragStart(e) {
@@ -186,9 +178,9 @@
       if (!targetTile.classList.contains("tile") || targetTile === draggedTile) return;
 
       const grid = document.getElementById("puzzle-grid");
-      const children = Array.from(grid.children);
-      const fromIndex = children.indexOf(draggedTile);
-      const toIndex = children.indexOf(targetTile);
+      const tiles = Array.from(grid.children);
+      const fromIndex = tiles.indexOf(draggedTile);
+      const toIndex = tiles.indexOf(targetTile);
 
       if (fromIndex > toIndex) {
         grid.insertBefore(draggedTile, targetTile);
@@ -198,20 +190,22 @@
         grid.insertBefore(draggedTile, grid.children[toIndex]);
       }
 
-      [currentOrder[fromIndex], currentOrder[toIndex]] = [currentOrder[toIndex], currentOrder[fromIndex]];
       checkCompletion();
     }
 
     function checkCompletion() {
-      for (let i = 0; i < currentOrder.length; i++) {
-        if (currentOrder[i] !== i) return;
+      const tiles = Array.from(document.getElementById("puzzle-grid").children);
+      const isCorrect = tiles.every((tile, idx) => parseInt(tile.dataset.index) === idx);
+
+      if (isCorrect) {
+        document.getElementById("puzzle-feedback").innerHTML = "🎉 Great job!";
+        setTimeout(() => {
+          alert("Whoo... Here are your wishes!");
+          document.querySelector(".puzzle-container").style.display = "none";
+          document.getElementById("album").style.display = "block";
+          document.getElementById("nextBtn").style.display = "inline-block";
+        }, 1000);
       }
-      document.getElementById("puzzle-feedback").innerHTML = "🎉 Great job! Here are my wishes!";
-      setTimeout(() => {
-        document.querySelector(".puzzle-container").style.display = "none";
-        document.getElementById("album").style.display = "block";
-        document.getElementById("nextBtn").style.display = "inline-block";
-      }, 2000);
     }
 
     const albumPhotos = [
